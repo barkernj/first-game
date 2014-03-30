@@ -10,20 +10,28 @@
     + Changed "Goblins Caught" display color to black
     + Changed "Goblins Caught" display position to (0,0)
     + Add controls to buttons |W| |A| |S| |D|
+    + Added A Speed Power-Up @ 5 Goblins Caught
+    + Added Power-Up = Hero's speed (x1.5)
+    + Added Spacebar Action Keystroke
+    + Added Power-Up = Hero PNG changes
 */
 
 /*  CHANGES TO MAKE
 
     - Add sprites for Hero
     - Add sprites for Monster
-    - Add Action Keystroke
     - Make Monster Chase Hero
-    - Add A Speed Power-Up @ 5 Goblins Caught
-    - Add Power-Up = Hero's speed (x1.5)
-    - Add Power-Up = Hero PNG/Sprite changes
     - Add area where player cannot go (like a building was there)
+    - Add a timer at top right of Canvas
+    - Add background track
+    - Add Buffered Audio and SFX for action keystroke
 */
 
+/* LOADING SCREEN
+    setTimeout(function() {
+    //after loaded game assests
+    document.getElementById("loader").style.top="-720px";
+}, 1000) */
 
 // Create the canvas
 var canvas = document.createElement("canvas");
@@ -136,6 +144,7 @@ var update = function (modifier) {
 		&& monster.x <= (hero.x + 32)
 		&& hero.y <= (monster.y + 32)
 		&& monster.y <= (hero.y + 32)
+        && (32 in keysDown)
 	) {
         ++monstersCaught;
         monster.x = 32 + (Math.random() * (canvas.width - 64));
@@ -153,6 +162,7 @@ var update = function (modifier) {
         hero.speed = (256 * 1.5);
         power.x = -64;
         power.y = -64;
+        heroImage.src = "images/hero-power.png";
     }
 
     // Speed Power-up at 5 Goblins Caught
@@ -208,7 +218,7 @@ var render = function () {
     ctx.font = "24px Helvetica";
     ctx.textAlign = "left";
     ctx.textBaseline = "top";
-    ctx.fillText("Goblins caught: " + monstersCaught, 0, 0);
+    ctx.fillText("Goblins Captured: " + monstersCaught, 0, 0);
 };
 
 // The main game loop
@@ -226,9 +236,4 @@ var main = function () {
 reset();
 var then = Date.now();
 setInterval(main, 1); // Execute as fast as possible
-
-setTimeout(function() {
-    //after loaded game assests
-    document.getElementById("loader").style.top="-720px";
-}, 1000)
 
