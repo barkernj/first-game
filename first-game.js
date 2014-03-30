@@ -1,4 +1,4 @@
-/* My first game tutorial by Jay Barker */
+/* My first game tutorial by Jay Barker and Wes Turner */
 
 /*  CHANGES
 
