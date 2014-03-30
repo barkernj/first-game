@@ -49,7 +49,7 @@ var bgImage = new Image();
 bgImage.onload = function () {
 	bgReady = true;
 };
-bgImage.src = "images/background-sand-720p.png";
+bgImage.src = "images/background-sand-800x600.png";
 
 // Hero image
 var heroReady = false;
