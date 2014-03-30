@@ -25,6 +25,7 @@
     - Add a timer at top right of Canvas
     - Add background track
     - Add Buffered Audio and SFX for action keystroke
+    - Responsive Windows?
 */
 
 /* LOADING SCREEN
