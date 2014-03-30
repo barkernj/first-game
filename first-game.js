@@ -26,6 +26,7 @@
     - Add background track
     - Add Buffered Audio and SFX for action keystroke
     - Responsive Windows?
+    - Add sfx to hitting the walls
 */
 
 /* LOADING SCREEN
