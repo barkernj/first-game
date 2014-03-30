@@ -27,6 +27,7 @@
     - Add Buffered Audio and SFX for action keystroke
     - Responsive Windows?
     - Add sfx to action key |spacebar|
+    - Add sfx for hitting wall
 */
 
 /* LOADING SCREEN
