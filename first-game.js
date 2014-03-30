@@ -26,7 +26,6 @@
     - Add background track
     - Add Buffered Audio and SFX for action keystroke
     - Responsive Windows?
-    - Add sfx to hitting the walls
 */
 
 /* LOADING SCREEN
@@ -118,25 +117,25 @@ var update = function (modifier) {
     if (38 in keysDown) { // Player holding up
         hero.y -= hero.speed * modifier;
     }
-    if (87 in keysDown) { // Player holding up
+    if (87 in keysDown) { // Player holding |W|
         hero.y -= hero.speed * modifier;
     }
     if (40 in keysDown) { // Player holding down
         hero.y += hero.speed * modifier;
     }
-    if (83 in keysDown) { // Player holding down
+    if (83 in keysDown) { // Player holding |S|
         hero.y += hero.speed * modifier;
     }
     if (37 in keysDown) { // Player holding left
         hero.x -= hero.speed * modifier;
     }
-    if (65 in keysDown) { // Player holding left
+    if (65 in keysDown) { // Player holding |A|
         hero.x -= hero.speed * modifier;
     }
     if (39 in keysDown) { // Player holding right
         hero.x += hero.speed * modifier;
     }
-    if (68 in keysDown) { // Player holding right
+    if (68 in keysDown) { // Player holding |D|
         hero.x += hero.speed * modifier;
     }
 
