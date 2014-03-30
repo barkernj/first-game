@@ -1,0 +1,22 @@
+#gameWrapper{
+    width:1280px;
+    height:720px;
+    position:relative;    
+}
+
+.layer{    
+    width:100%;
+    height:100%;
+    position:absolute;
+    top:0;
+    left:0;
+    text-align:center;
+}
+
+#loader{
+    background:green;    
+}
+
+#game{
+    background:blue;    
+}

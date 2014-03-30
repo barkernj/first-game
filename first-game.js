@@ -1,8 +1,35 @@
+/* My first game tutorial by Jay Barker */
+
+/*  CHANGES
+
+    + Added 1280x720 sand background
+    + Added if player moves past left border of screen
+    + Added if player move past right border of screen
+    + Added if player move past top border of screen
+    + Added if player move past bottom border of screen
+    + Changed "Goblins Caught" display color to black
+    + Changed "Goblins Caught" display position to (0,0)
+    + Add controls to buttons |W| |A| |S| |D|
+*/
+
+/*  CHANGES TO MAKE
+
+    - Add sprites for Hero
+    - Add sprites for Monster
+    - Add Action Keystroke
+    - Make Monster Chase Hero
+    - Add A Speed Power-Up @ 5 Goblins Caught
+    - Add Power-Up = Hero's speed (x1.5)
+    - Add Power-Up = Hero PNG/Sprite changes
+    - Add area where player cannot go (like a building was there)
+*/
+
+
 // Create the canvas
 var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d");
-canvas.width = 512;
-canvas.height = 480;
+canvas.width = 1280;
+canvas.height = 720;
 document.body.appendChild(canvas);
 
 // Background image
@@ -11,7 +38,7 @@ var bgImage = new Image();
 bgImage.onload = function () {
 	bgReady = true;
 };
-bgImage.src = "images/background.png";
+bgImage.src = "images/background-sand-720p.png";
 
 // Hero image
 var heroReady = false;
@@ -29,6 +56,14 @@ monsterImage.onload = function () {
 };
 monsterImage.src = "images/monster.png";
 
+// Power-up image
+var powerReady = false;
+var powerImage = new Image();
+powerImage.onload = function () {
+    powerReady = true;
+}
+powerImage.src = "images/power-up.png";
+
 // Game objects
 var hero = {
 	speed: 256, // movement in pixels per second
@@ -36,10 +71,16 @@ var hero = {
 	y: 0
 };
 var monster = {
+    speed: 0,
 	x: 0,
 	y: 0
 };
 var monstersCaught = 0;
+var powerNum = 0;
+var power = {
+    x: -64,
+    y: -64
+};
 
 // Handle keyboard controls
 var keysDown = {};
@@ -67,17 +108,29 @@ var update = function (modifier) {
     if (38 in keysDown) { // Player holding up
         hero.y -= hero.speed * modifier;
     }
+    if (87 in keysDown) { // Player holding up
+        hero.y -= hero.speed * modifier;
+    }
     if (40 in keysDown) { // Player holding down
+        hero.y += hero.speed * modifier;
+    }
+    if (83 in keysDown) { // Player holding down
         hero.y += hero.speed * modifier;
     }
     if (37 in keysDown) { // Player holding left
         hero.x -= hero.speed * modifier;
     }
+    if (65 in keysDown) { // Player holding left
+        hero.x -= hero.speed * modifier;
+    }
     if (39 in keysDown) { // Player holding right
         hero.x += hero.speed * modifier;
     }
+    if (68 in keysDown) { // Player holding right
+        hero.x += hero.speed * modifier;
+    }
 
-    // Are they touching?
+    // Are the Hero & Monter touching?
     if (
 		hero.x <= (monster.x + 32)
 		&& monster.x <= (hero.x + 32)
@@ -90,33 +143,72 @@ var update = function (modifier) {
         //reset();
     }
 
-    // If player moves offscreen
-    if (hero.x <= -32) {
-        hero.x = (512 + 32);
+    // Are the Hero & Power-up touching?
+    if (
+		hero.x <= (power.x + 32)
+		&& power.x <= (hero.x + 32)
+		&& hero.y <= (power.y + 32)
+		&& power.y <= (hero.y + 32)
+	) {
+        hero.speed = (256 * 1.5);
+        power.x = -64;
+        power.y = -64;
     }
 
+    // Speed Power-up at 5 Goblins Caught
+    if (monstersCaught == 5
+        && powerNum == 0
+    ) {
+        power.x = 32 + (Math.random() * (canvas.width - 64));
+        power.y = 32 + (Math.random() * (canvas.height - 64));
+        ++powerNum
+    }
+
+    // Area where player cannot go
+
+
+    // If player moves left offscreen
+    if (hero.x <= -33) {
+        hero.x = (1280 + 32);
+    }
+    // If player moves right offscreen
+    if (hero.x >= 1313) {
+        hero.x = (0 - 32);
+    }
+    // If player moves up offscreen
+    if (hero.y <= -33) {
+        hero.y = (720 + 32);
+    }
+    // If player moves down offscreen
+    if (hero.y >= 753) {
+        hero.y = (0 - 32);
+    }
 };
 
 // Draw everything
 var render = function () {
-	if (bgReady) {
-		ctx.drawImage(bgImage, 0, 0);
-	}
+    if (bgReady) {
+        ctx.drawImage(bgImage, 0, 0);
+    }
 
-	if (heroReady) {
-		ctx.drawImage(heroImage, hero.x, hero.y);
-	}
+    if (heroReady) {
+        ctx.drawImage(heroImage, hero.x, hero.y);
+    }
 
-	if (monsterReady) {
-		ctx.drawImage(monsterImage, monster.x, monster.y);
-	}
+    if (monsterReady) {
+        ctx.drawImage(monsterImage, monster.x, monster.y);
+    }
 
-	// Score
-	ctx.fillStyle = "rgb(250, 250, 250)";
-	ctx.font = "24px Helvetica";
-	ctx.textAlign = "left";
-	ctx.textBaseline = "top";
-	ctx.fillText("Goblins caught: " + monstersCaught, 32, 32);
+    if (powerReady) {
+        ctx.drawImage(powerImage, power.x, power.y);
+    }
+
+    // Score
+    ctx.fillStyle = "rgb(0, 0, 0)";
+    ctx.font = "24px Helvetica";
+    ctx.textAlign = "left";
+    ctx.textBaseline = "top";
+    ctx.fillText("Goblins caught: " + monstersCaught, 0, 0);
 };
 
 // The main game loop
@@ -134,4 +226,9 @@ var main = function () {
 reset();
 var then = Date.now();
 setInterval(main, 1); // Execute as fast as possible
+
+setTimeout(function() {
+    //after loaded game assests
+    document.getElementById("loader").style.top="-720px";
+}, 1000)
 
