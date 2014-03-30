@@ -72,7 +72,7 @@ var powerReady = false;
 var powerImage = new Image();
 powerImage.onload = function () {
     powerReady = true;
-}
+};
 powerImage.src = "images/power-up.png";
 
 // Game objects
@@ -212,7 +212,7 @@ var update = function (modifier) {
 		return function() {
 			return timeLeft - (Date.now() - startTime);
 		};
-};
+	};
     
 };
 
