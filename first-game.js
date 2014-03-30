@@ -92,6 +92,11 @@ var power = {
     x: -64,
     y: -64
 };
+var timeLeft = 10000;
+
+/*var timeElapse = function () {
+    	setInterval(timeDecrement,1000);
+    };*/
 
 // Handle keyboard controls
 var keysDown = {};
@@ -116,6 +121,8 @@ var reset = function () {
 
 // Update game objects
 var update = function (modifier) {
+	timeElapsed ();
+	
     if (38 in keysDown) { // Player holding up
         hero.y -= hero.speed * modifier;
     }
@@ -196,6 +203,19 @@ var update = function (modifier) {
     if (hero.y >= 633) {
         hero.y = (0 - 32);
     }
+    
+    //Timer (When it runs out the game is over)
+    if (timeLeft == 0){
+    	reset();
+    }
+    
+    var timeDecrement = function (timeLeft) {
+		var startTime = Date.now();
+		return function() {
+			return timeLeft - (Date.now() - startTime);
+		};
+};
+    
 };
 
 // Draw everything
@@ -222,6 +242,9 @@ var render = function () {
     ctx.textAlign = "left";
     ctx.textBaseline = "top";
     ctx.fillText("Goblins Captured: " + monstersCaught, 0, 0);
+    
+    //Timer
+    ctx.fillText("Timer: " + (timeLeft/1000), 700, 0);
 };
 
 // The main game loop
