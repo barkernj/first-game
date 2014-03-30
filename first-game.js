@@ -26,11 +26,8 @@
     - Add background track
     - Add Buffered Audio and SFX for action keystroke
     - Responsive Windows?
-<<<<<<< HEAD
-=======
     - Add sfx to action key |spacebar|
     - Add sfx for hitting wall
->>>>>>> b3221658585ca80a786ce1fc945cdaa6619523aa
 */
 
 /* LOADING SCREEN
