@@ -121,8 +121,6 @@ var reset = function () {
 
 // Update game objects
 var update = function (modifier) {
-	timeElapsed ();
-	
     if (38 in keysDown) { // Player holding up
         hero.y -= hero.speed * modifier;
     }
