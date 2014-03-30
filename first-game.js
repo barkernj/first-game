@@ -39,8 +39,8 @@
 // Create the canvas
 var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d");
-canvas.width = 1280;
-canvas.height = 720;
+canvas.width = 800;
+canvas.height = 600;
 document.body.appendChild(canvas);
 
 // Background image
@@ -174,7 +174,7 @@ var update = function (modifier) {
     ) {
         power.x = 32 + (Math.random() * (canvas.width - 64));
         power.y = 32 + (Math.random() * (canvas.height - 64));
-        ++powerNum
+        ++powerNum;
     }
 
     // Area where player cannot go
@@ -182,18 +182,18 @@ var update = function (modifier) {
 
     // If player moves left offscreen
     if (hero.x <= -33) {
-        hero.x = (1280 + 32);
+        hero.x = (800 + 32);
     }
     // If player moves right offscreen
-    if (hero.x >= 1313) {
+    if (hero.x >= 833) {
         hero.x = (0 - 32);
     }
     // If player moves up offscreen
     if (hero.y <= -33) {
-        hero.y = (720 + 32);
+        hero.y = (600 + 32);
     }
     // If player moves down offscreen
-    if (hero.y >= 753) {
+    if (hero.y >= 633) {
         hero.y = (0 - 32);
     }
 };
