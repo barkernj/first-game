@@ -28,6 +28,7 @@
     - Responsive Windows?
     - Add sfx to action key |spacebar|
     - Add sfx for hitting wall
+    - Add Reset Game to |R| key
 */
 
 /* LOADING SCREEN
@@ -75,7 +76,7 @@ powerImage.onload = function () {
 };
 powerImage.src = "images/power-up.png";
 
-// Game objects
+// Game objects --------------------------------------------------------------------------------------------------------------------
 var hero = {
 	speed: 256, // movement in pixels per second
 	x: 0,
@@ -93,6 +94,9 @@ var power = {
     y: -64
 };
 var timeLeft = 10000;
+var swingSFX = new Audio("/audio/sfx/action-sound.mp3");
+var track01 = new Audio("/audio/track/luf1cave.mp3");
+track01.play();
 
 /*var timeElapse = function () {
     	setInterval(timeDecrement,1000);
@@ -119,7 +123,7 @@ var reset = function () {
 	monster.y = 32 + (Math.random() * (canvas.height - 64));
 };
 
-// Update game objects
+// Update game objects -------------------------------------------------------------------------------------------------------------
 var update = function (modifier) {
     if (38 in keysDown) { // Player holding up
         hero.y -= hero.speed * modifier;
@@ -144,6 +148,9 @@ var update = function (modifier) {
     }
     if (68 in keysDown) { // Player holding |D|
         hero.x += hero.speed * modifier;
+    }
+    if (32 in keysDown) { // Player Presses |spacebar|
+        swingSFX.play();
     }
 
     // Are the Hero & Monter touching?
@@ -182,6 +189,20 @@ var update = function (modifier) {
         ++powerNum;
     }
 
+    // Monster Chases Hero
+    if (monster.x < hero.x) {
+        monster.x = monster.x + 0.5;
+    }
+    if (monster.y < hero.y) {
+        monster.y = monster.y + 0.5;
+    }
+    if (monster.x > hero.x) {
+        monster.x = monster.x - 0.5;
+    }
+    if (monster.y > hero.y) {
+        monster.y = monster.y - 0.5;
+    }
+
     // Area where player cannot go
 
 
@@ -201,22 +222,22 @@ var update = function (modifier) {
     if (hero.y >= 633) {
         hero.y = (0 - 32);
     }
-    
+
     //Timer (When it runs out the game is over)
-    if (timeLeft == 0){
-    	reset();
+    if (timeLeft == 0) {
+        reset();
     }
-    
-    var timeDecrement = function (timeLeft) {
-		var startTime = Date.now();
-		return function() {
-			return timeLeft - (Date.now() - startTime);
-		};
-	};
+
+    /* var timeDecrement = function (timeLeft) {
+        var startTime = Date.now();
+        return function () {
+            return timeLeft - (Date.now() - startTime);
+        };
+    }; */
     
 };
 
-// Draw everything
+// Draw everything ---------------------------------------------------------------------------------------------------------------
 var render = function () {
     if (bgReady) {
         ctx.drawImage(bgImage, 0, 0);
@@ -242,7 +263,7 @@ var render = function () {
     ctx.fillText("Goblins Captured: " + monstersCaught, 0, 0);
     
     //Timer
-    ctx.fillText("Timer: " + (timeLeft/1000), 700, 0);
+    ctx.fillText("Timer: " + (timeLeft/1000), 690, 0);
 };
 
 // The main game loop
