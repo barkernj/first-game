@@ -5,6 +5,10 @@
         <meta charset="utf-8" />
         <title>Simple Canvas Game</title>
 
+        <!-- BEGIN IMPORT CSS-->
+        <link rel="stylesheet" type="text/css" href="first-game-style.css">
+        <!-- END IMPORT CSS-->
+
         <!-- BEGIN GOOGLE ANALYTICS-->
         <script>
           (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -19,14 +23,11 @@
         <!--END GOOGLE ANALYTICS-->
     </head>
     <body>
-        <div id="gameWrapper">
+        <div class="gameWrapper">
             <div id="game" class="layer">
                 <script src="first-game.js"></script>
             </div>
-            <!--<div id="loading" class="layer">
-                <img src="https://www.voicemailoffice.com/secure/images/loading_transparent.gif" alt="loader" />
-            </div>-->
-            <div>
+            <div class="controls">
                 <h4>|Spacebar| for Goblin Capture</h4>
                 <h4>|E| for Run</h4>
                 <h4>|R| for Reset</h4>
