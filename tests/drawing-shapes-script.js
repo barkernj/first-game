@@ -27,6 +27,7 @@ var orange = "#FF8C00";
 var blue = "#00C8FB";
 var white = "ffffff";
 var black = "000000";
+var testOpacity = "rgba(255, 140, 000, 0.5)";
 // Two dimensional array to represent container area
 var containers =
 [
@@ -47,6 +48,11 @@ var firstClickX = 0;
 var firstClickY = 0;
 var temp = " ";
 var temp2 = " ";
+// TIMER
+var time = 10;
+// SCORE
+var playerScore = 0;
+
 
 // Draw the color containers at bottom on page
 ctx.fillStyle = purple;
@@ -167,35 +173,44 @@ function draw() {
                 ctx.strokeStyle = white;
                 ctx.beginPath();
                 ctx.arc(j * 100 + 50, i * 100 + 50, dropRadius, 0, Math.PI * 2, true);
-                ctx.stroke();
-                //ctx.lineWidth = 10;
-                //ctx.strokeStyle = white;
-                ctx.beginPath();
-                ctx.arc((j + 1) * 100 + 50, i * 100 + 50, dropRadius, 0, Math.PI * 2, true);
-                ctx.stroke();
-                //ctx.lineWidth = 10;
-                //ctx.strokeStyle = white;
-                ctx.beginPath();
-                ctx.arc((j - 1) * 100 + 50, i * 100 + 50, dropRadius, 0, Math.PI * 2, true);
-                ctx.stroke();
-                //ctx.lineWidth = 6;
-                //ctx.strokeStyle = white;
-                ctx.beginPath();
-                ctx.arc(j * 100 + 50, (i + 1) * 100 + 50, dropRadius, 0, Math.PI * 2, true);
+                ctx.closePath();
                 ctx.stroke();
                 //ctx.lineWidth = 10;
                 //ctx.strokeStyle = white;
                 ctx.beginPath();
                 ctx.arc(j * 100 + 50, (i - 1) * 100 + 50, dropRadius, 0, Math.PI * 2, true);
+                ctx.closePath();
                 ctx.stroke();
-            }
+                //ctx.lineWidth = 10;
+                //ctx.strokeStyle = white;
+                ctx.beginPath();
+                ctx.arc((j + 1) * 100 + 50, i * 100 + 50, dropRadius, 0, Math.PI * 2, false);
+                ctx.closePath();
+                ctx.stroke();
+                //ctx.lineWidth = 10;
+                //ctx.strokeStyle = white;
+                ctx.beginPath();
+                ctx.arc((j - 1) * 100 + 50, i * 100 + 50, dropRadius, 0, Math.PI * 2, true);
+                ctx.closePath();
+                ctx.stroke();
+                //ctx.lineWidth = 6;
+                //ctx.strokeStyle = white;
+                ctx.beginPath();
+                ctx.arc(j * 100 + 50, (i + 1) * 100 + 50, dropRadius, 0, Math.PI * 2, true);
+                ctx.closePath();
+                ctx.stroke();
+                }
         }
 
     }
     ////clicks++;
 
-    // Draw the containers
-    ctx.fillStyle = purple;
+    // Draw the containers with gradients
+
+    var myGradient = ctx.createLinearGradient(0, 0, 170, 0);
+    myGradient.addColorStop(0, purple);
+    myGradient.addColorStop(1, "white");
+    ctx.fillStyle = myGradient;
     ctx.fillRect(0, containerTop, containerWidth, containerHeight);
 
     ctx.fillStyle = green;
@@ -209,7 +224,51 @@ function draw() {
 
     ctx.fillStyle = blue;
     ctx.fillRect(400, containerTop, containerWidth, containerHeight);
+
+    // Display Timer & Score
+    ctx.fillStyle = "rgb(255, 255, 255)";
+    ctx.font = "12px Helvetica";
+    ctx.textAlign = "left";
+    ctx.textBaseline = "top";
+    ctx.fillText("Timer: " + (time), 10, 0);
+    ctx.fillText("Score: " + (playerScore), 400, 0);
 }
+
+
+// TIMER FUNCTION
+var myVar=setInterval(function(){myTimer()},1000);
+
+function myTimer() {
+    if (time > 1) {
+        time = time - 1;
+    } else if (time == 1){
+        time = 10; 
+        scored();   
+    }
+}
+
+
+// Check to see if score should be increased
+function scored() {
+    if (droplets[4][0] == purple) {
+        playerScore = playerScore + 100;
+    }
+    if (droplets[4][1] == green) {
+        playerScore = playerScore + 100;
+    }
+    if (droplets[4][2] == red) {
+        playerScore = playerScore + 100;
+    }
+    if (droplets[4][3] == orange) {
+        playerScore = playerScore + 100;
+    }
+    if (droplets[4][4] == blue) {
+        playerScore = (playerScore + 100);
+    }
+}
+
+
+// 
 
 
 // Clear Canvas Function
@@ -221,4 +280,26 @@ function clear() {
 
 
 // Initial Canvas Draw
-draw();
+//draw();
+
+
+// Update Function
+var update = function (modifier) { 
+
+};
+
+// The main game loop
+var main = function () {
+	var now = Date.now();
+	var delta = now - then;
+
+	update(delta / 1000);
+	draw();
+
+	then = now;
+};
+
+// Let's play this game!
+clear();
+var then = Date.now();
+setInterval(main, 1); // Execute as fast as possible
