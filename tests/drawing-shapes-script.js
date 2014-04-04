@@ -8,7 +8,7 @@ var ctx = canvas.getContext("2d");
 var width = canvas.getAttribute("width");
 var height = canvas.getAttribute("height");
 
-var clicks = 0;
+////var clicks = 0;
 var xClick = 0;
 var yClick = 0;
 // Containers
@@ -108,8 +108,6 @@ $("#myCanvas").click(function (e) {
     } else {
         firstClick = false;
     }
-
-    // alert(xField + "x" + yField); 
     draw();
 });
 
@@ -134,39 +132,6 @@ function draw() {
             // Actual draw of the border
             ctx.stroke(); */
 
-            // Check if droplet is first click
-            if (i == xClick && j == yClick && firstClick == false) {
-                ctx.lineWidth = 10;
-                ctx.strokeStyle = white;
-                ctx.beginPath();
-                ctx.arc(j * 100 + 50, i * 100 + 50, dropRadius, 0, Math.PI * 2, true);
-                ctx.closePath();
-                ctx.stroke();
-                ctx.lineWidth = 10;
-                ctx.strokeStyle = white;
-                ctx.beginPath();
-                ctx.arc((j + 1) * 100 + 50, i * 100 + 50, dropRadius, 0, Math.PI * 2, true);
-                ctx.closePath();
-                ctx.stroke();
-                ctx.lineWidth = 5;
-                ctx.strokeStyle = white;
-                ctx.beginPath();
-                ctx.arc((j - 1) * 100 + 50, i * 100 + 50, dropRadius, 0, Math.PI * 2, true);
-                ctx.closePath();
-                ctx.stroke();
-                ctx.lineWidth = 10;
-                ctx.strokeStyle = white;
-                ctx.beginPath();
-                ctx.arc(j * 100 + 50, (i + 1) * 100 + 50, dropRadius, 0, Math.PI * 2, true);
-                ctx.closePath();
-                ctx.stroke();
-                ctx.lineWidth = 5;
-                ctx.strokeStyle = white;
-                ctx.beginPath();
-                ctx.arc(j * 100 + 50, (i - 1) * 100 + 50, dropRadius, 0, Math.PI * 2, true);
-                ctx.closePath();
-                ctx.stroke();
-            }
 
             // Check which color to fill the droplet
             if (droplets[i][j] == red) {
@@ -195,10 +160,55 @@ function draw() {
                 ctx.arc(j * 100 + 50, i * 100 + 50, dropRadius, 0, Math.PI * 2, true);
                 ctx.fill();
             }
+
+            // Check if droplet is first click
+            if (i == xClick && j == yClick && firstClick == false) {
+                ctx.lineWidth = "10";
+                ctx.strokeStyle = white;
+                ctx.beginPath();
+                ctx.arc(j * 100 + 50, i * 100 + 50, dropRadius, 0, Math.PI * 2, true);
+                ctx.stroke();
+                //ctx.lineWidth = 10;
+                //ctx.strokeStyle = white;
+                ctx.beginPath();
+                ctx.arc((j + 1) * 100 + 50, i * 100 + 50, dropRadius, 0, Math.PI * 2, true);
+                ctx.stroke();
+                //ctx.lineWidth = 10;
+                //ctx.strokeStyle = white;
+                ctx.beginPath();
+                ctx.arc((j - 1) * 100 + 50, i * 100 + 50, dropRadius, 0, Math.PI * 2, true);
+                ctx.stroke();
+                //ctx.lineWidth = 6;
+                //ctx.strokeStyle = white;
+                ctx.beginPath();
+                ctx.arc(j * 100 + 50, (i + 1) * 100 + 50, dropRadius, 0, Math.PI * 2, true);
+                ctx.stroke();
+                //ctx.lineWidth = 10;
+                //ctx.strokeStyle = white;
+                ctx.beginPath();
+                ctx.arc(j * 100 + 50, (i - 1) * 100 + 50, dropRadius, 0, Math.PI * 2, true);
+                ctx.stroke();
+            }
         }
 
     }
-    clicks++;
+    ////clicks++;
+
+    // Draw the containers
+    ctx.fillStyle = purple;
+    ctx.fillRect(0, containerTop, containerWidth, containerHeight);
+
+    ctx.fillStyle = green;
+    ctx.fillRect(100, containerTop, containerWidth, containerHeight);
+        
+    ctx.fillStyle = red;
+    ctx.fillRect(200, containerTop, containerWidth, containerHeight);
+        
+    ctx.fillStyle = orange;
+    ctx.fillRect(300, containerTop, containerWidth, containerHeight);
+
+    ctx.fillStyle = blue;
+    ctx.fillRect(400, containerTop, containerWidth, containerHeight);
 }
 
 
