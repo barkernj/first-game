@@ -28,18 +28,13 @@ var blue = "#00C8FB";
 var white = "ffffff";
 var black = "000000";
 var testOpacity = "rgba(255, 140, 000, 0.5)";
-// Two dimensional array to represent container area
-var containers =
-[
-    [red, red, red, red, red]
-];
 // Two dimensional array to represent the droplet area
 var droplets =
 [
-    [red, purple, green, purple, blue],
-    [orange, green, red, red, green],
-    [red, blue, orange, purple, green],
-    [purple, orange, orange, blue, blue],
+    [green, purple, orange, blue, red],
+    [, , , , ],
+    [, , , , ],
+    [, , , , ],
     [, , , , ]
 ];
 // Droplet Switching Variables
@@ -52,6 +47,11 @@ var temp2 = " ";
 var time = 10;
 // SCORE
 var playerScore = 0;
+/* Two dimensional array to represent container area
+var containers =
+[
+    [red, red, red, red, red]
+]; */
 
 
 // Draw the color containers at bottom on page
@@ -169,32 +169,32 @@ function draw() {
 
             // Check if droplet is first click
             if (i == xClick && j == yClick && firstClick == false) {
-                ctx.lineWidth = "10";
+                ctx.lineWidth = "5";
                 ctx.strokeStyle = white;
                 ctx.beginPath();
                 ctx.arc(j * 100 + 50, i * 100 + 50, dropRadius, 0, Math.PI * 2, true);
                 ctx.closePath();
                 ctx.stroke();
-                //ctx.lineWidth = 10;
-                //ctx.strokeStyle = white;
+                ctx.lineWidth = "5";
+                ctx.strokeStyle = white;
                 ctx.beginPath();
                 ctx.arc(j * 100 + 50, (i - 1) * 100 + 50, dropRadius, 0, Math.PI * 2, true);
                 ctx.closePath();
                 ctx.stroke();
-                //ctx.lineWidth = 10;
-                //ctx.strokeStyle = white;
+                ctx.lineWidth = "5";
+                ctx.strokeStyle = white;
                 ctx.beginPath();
-                ctx.arc((j + 1) * 100 + 50, i * 100 + 50, dropRadius, 0, Math.PI * 2, false);
+                ctx.arc((j + 1) * 100 + 50, i * 100 + 50, dropRadius, 0, Math.PI * 2, true);
                 ctx.closePath();
                 ctx.stroke();
-                //ctx.lineWidth = 10;
-                //ctx.strokeStyle = white;
+                ctx.lineWidth = "5";
+                ctx.strokeStyle = white;
                 ctx.beginPath();
                 ctx.arc((j - 1) * 100 + 50, i * 100 + 50, dropRadius, 0, Math.PI * 2, true);
                 ctx.closePath();
                 ctx.stroke();
-                //ctx.lineWidth = 6;
-                //ctx.strokeStyle = white;
+                ctx.lineWidth = "5";
+                ctx.strokeStyle = white;
                 ctx.beginPath();
                 ctx.arc(j * 100 + 50, (i + 1) * 100 + 50, dropRadius, 0, Math.PI * 2, true);
                 ctx.closePath();
@@ -207,10 +207,10 @@ function draw() {
 
     // Draw the containers with gradients
 
-    var myGradient = ctx.createLinearGradient(0, 0, 170, 0);
+    /*var myGradient = ctx.createLinearGradient(0, 0, 170, 0);
     myGradient.addColorStop(0, purple);
-    myGradient.addColorStop(1, "white");
-    ctx.fillStyle = myGradient;
+    myGradient.addColorStop(1, "white"); */
+    ctx.fillStyle = purple;
     ctx.fillRect(0, containerTop, containerWidth, containerHeight);
 
     ctx.fillStyle = green;
@@ -227,10 +227,10 @@ function draw() {
 
     // Display Timer & Score
     ctx.fillStyle = "rgb(255, 255, 255)";
-    ctx.font = "12px Helvetica";
+    ctx.font = "14px Helvetica";
     ctx.textAlign = "left";
     ctx.textBaseline = "top";
-    ctx.fillText("Timer: " + (time), 10, 0);
+    ctx.fillText("Timer: " + (time), 25, 0);
     ctx.fillText("Score: " + (playerScore), 400, 0);
 }
 
@@ -248,7 +248,7 @@ function myTimer() {
 }
 
 
-// Check to see if score should be increased
+// SCORE FUNCTION (Check to see if score should be increased)
 function scored() {
     if (droplets[4][0] == purple) {
         playerScore = playerScore + 100;
@@ -265,10 +265,36 @@ function scored() {
     if (droplets[4][4] == blue) {
         playerScore = (playerScore + 100);
     }
+    moveBoard();
 }
 
 
-// 
+// Move array elements along their respective 'column' and randomly populate top row
+function moveBoard() {
+    for (var i = droplets.length - 1; i >= 0; --i) {
+        for (var j = droplets[i].length - 1; j >= 0; --j) {
+            if (i < 4) {
+                droplets[i + 1][j] = droplets[i][j];
+                if (i == 0) {
+                    var randomColor = " ";
+                    randomColor = Math.floor(Math.random() * 5) + 1;
+                    if (randomColor == 1){
+                        randomColor = blue;
+                    } else if (randomColor == 2) {
+                        randomColor = red;
+                    } else if (randomColor == 3) {
+                        randomColor = orange;
+                    } else if (randomColor == 4) {
+                        randomColor = purple;
+                    } else if (randomColor == 5) {
+                        randomColor = green;
+                    }
+                    droplets[i][j] = randomColor;
+                }
+            }
+        }
+    }
+}
 
 
 // Clear Canvas Function
