@@ -91,17 +91,26 @@ scorpionImage.src = "images/scorpion-up.png";
 var hero = {
 	speed: 256, // movement in pixels per second
 	x: 0,
-	y: 0
+	y: 0,
+    life: 20,
+    attack: 5,
+    defense: 0,
+    money: 0
 };
 var monster = {
     speed: 0,
 	x: 0,
-	y: 0
+	y: 0,
+    life: 5,
+    attack: 1,
+    defense: 0
 };
 var scorpion = {
     speed: 0,
     x: 0,
-    y: 0
+    y: 0,
+    attack: 1,
+    defense: 0
 }
 var monstersCaught = 0;
 var powerNum = 0;

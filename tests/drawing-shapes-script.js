@@ -54,7 +54,7 @@ var containers =
 ]; */
 
 
-// Draw the color containers at bottom on page
+/* // Draw the color containers at bottom on page
 ctx.fillStyle = purple;
 ctx.fillRect(0, containerTop, containerWidth, containerHeight);
 
@@ -68,7 +68,7 @@ ctx.fillStyle = orange;
 ctx.fillRect(300, containerTop, containerWidth, containerHeight);
 
 ctx.fillStyle = blue;
-ctx.fillRect(400, containerTop, containerWidth, containerHeight);
+ctx.fillRect(400, containerTop, containerWidth, containerHeight); */
 
 
 // Attach a mouse click event listener for switching droplet colors
@@ -171,6 +171,10 @@ function draw() {
             if (i == xClick && j == yClick && firstClick == false) {
                 ctx.lineWidth = "5";
                 ctx.strokeStyle = white;
+                //ctx.shadowColor = white;
+                //ctx.shadowOffsetX = 0;
+                //ctx.shadowOffsetY = 0;
+                //ctx.shadowBlur    = 15;
                 ctx.beginPath();
                 ctx.arc(j * 100 + 50, i * 100 + 50, dropRadius, 0, Math.PI * 2, true);
                 ctx.closePath();
