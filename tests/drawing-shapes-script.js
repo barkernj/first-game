@@ -47,6 +47,7 @@ var temp2 = " ";
 var time = 10;
 // SCORE
 var playerScore = 0;
+var fontStyle = "16px Helvetica";
 /* Two dimensional array to represent container area
 var containers =
 [
@@ -231,7 +232,7 @@ function draw() {
 
     // Display Timer & Score
     ctx.fillStyle = "rgb(255, 255, 255)";
-    ctx.font = "14px Helvetica";
+    ctx.font = fontStyle;
     ctx.textAlign = "left";
     ctx.textBaseline = "top";
     ctx.fillText("Timer: " + (time), 25, 0);
