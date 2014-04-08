@@ -20,7 +20,12 @@
             var stage;
             var queue;
 
+            console.log("SCRIPT");
+
             function init() {
+
+                console.log("START INIT");
+
                 stage = new createjs.Stage("myCanvas");
                 
                 queue = new createjs.LoadQueue(false);
@@ -32,6 +37,9 @@
                 createjs.Sound.registerSound("assets/water-drop.mp3", "water-drop");
                 createjs.Sound.addEventListener("fileload", handleComplete);
                 */
+
+                console.log("END INIT");
+
             }
 
             function handleComplete(event) {
@@ -45,6 +53,8 @@
                 createjs.Ticker.addEventListener("tick", tick);
 
                 stage.addChild(ball);
+
+                console.log("COMPLETED");
             }
 
             function handleClick(event) {
