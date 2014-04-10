@@ -19,19 +19,26 @@ var containerHeight = 100;
 var containerTop = 500;
 // Drops
 var dropRadius = 25;
+var centerRadius = 2;
+var lineColor = "ffffff";
 // Colors
 var purple = "#8B008B";
 var green = "#5FCF80";
 var red = "#FF0000";
-var orange = "#FF8C00";
+var orange2 = "#FF8C00";
 var blue = "#00C8FB";
 var white = "ffffff";
 var black = "000000";
+var lime = "#00FF00";
+var lemon = "#FFF8C6";
+var orange = "#FFA500";
+var grapefruit = "#DC381F";
+var bloodorange = "#c91900";
 var testOpacity = "rgba(255, 140, 000, 0.5)";
 // Two dimensional array to represent the droplet area
 var droplets =
 [
-    [green, purple, orange, blue, red],
+    [purple, green, orange2, red, blue],
     [, , , , ],
     [, , , , ],
     [, , , , ],
@@ -146,26 +153,96 @@ function draw() {
                 ctx.beginPath();
                 ctx.arc(j * 100 + 50, i * 100 + 50, dropRadius, 0, Math.PI * 2, true);
                 ctx.fill();
+                ctx.closePath();
+                ctx.fillStyle = white;
+                ctx.beginPath();
+                ctx.arc(j * 100 + 50, i * 100 + 50, centerRadius, 0, Math.PI * 2, true);
+                ctx.fill();
+                ctx.closePath();
+                ctx.beginPath();
+                ctx.moveTo(j * 100 + 50, i * 100 + 50);
+                ctx.lineTo((j * 100 + 50) - 25, i * 100 + 50);
+                ctx.strokeStyle = white;
+                ctx.stroke();
+                ctx.closePath();
+                ctx.beginPath();
+                ctx.moveTo(j * 100 + 50, i * 100 + 50);
+                ctx.lineTo((j * 100 + 50) + 25, i * 100 + 50);
+                ctx.strokeStyle = white;
+                ctx.stroke();
+                ctx.closePath();
+                ctx.beginPath();
+                ctx.moveTo(j * 100 + 50, i * 100 + 50);
+                ctx.lineTo((j * 100 + 50), (i * 100 + 50) - 25);
+                ctx.strokeStyle = white;
+                ctx.stroke();
+                ctx.closePath();
+                ctx.beginPath();
+                ctx.moveTo(j * 100 + 50, i * 100 + 50);
+                ctx.lineTo(j * 100 + 50, (i * 100 + 50) + 25);
+                ctx.strokeStyle = white;
+                ctx.stroke();
+                ctx.closePath();
+                ctx.beginPath();
+                ctx.moveTo(j * 100 + 50, i * 100 + 50);
+                ctx.lineTo((j * 100 + 50) + (dropRadius * Math.sin(90)), (i * 100 + 50) + (dropRadius * Math.cos(90)));
+                ctx.strokeStyle = white;
+                ctx.stroke();
+                ctx.closePath();
+                ctx.beginPath();
+                ctx.moveTo(j * 100 + 50, i * 100 + 50);
+                ctx.lineTo((j * 100 + 50) - (dropRadius * Math.sin(90)), (i * 100 + 50) - (dropRadius * Math.cos(90)));
+                ctx.strokeStyle = white;
+                ctx.stroke();
+                ctx.closePath();
             } else if (droplets[i][j] == purple) {
                 ctx.fillStyle = purple;
                 ctx.beginPath();
                 ctx.arc(j * 100 + 50, i * 100 + 50, dropRadius, 0, Math.PI * 2, true);
                 ctx.fill();
+                ctx.closePath();
             } else if (droplets[i][j] == blue) {
                 ctx.fillStyle = blue;
                 ctx.beginPath();
                 ctx.arc(j * 100 + 50, i * 100 + 50, dropRadius, 0, Math.PI * 2, true);
                 ctx.fill();
+                ctx.closePath();
             } else if (droplets[i][j] == green) {
                 ctx.fillStyle = green;
                 ctx.beginPath();
                 ctx.arc(j * 100 + 50, i * 100 + 50, dropRadius, 0, Math.PI * 2, true);
                 ctx.fill();
+                ctx.closePath();
+            } else if (droplets[i][j] == orange2) {
+                ctx.fillStyle = orange;
+                ctx.beginPath();
+                ctx.arc(j * 100 + 50, i * 100 + 50, dropRadius, 0, Math.PI * 2, true);
+                ctx.fill();
+                ctx.closePath();
+            } else if (droplets[i][j] == lime) {
+                ctx.fillStyle = lime;
+                ctx.beginPath();
+                ctx.arc(j * 100 + 50, i * 100 + 50, dropRadius, 0, Math.PI * 2, true);
+                ctx.fill();
+                ctx.closePath();
+            } else if (droplets[i][j] == lemon) {
+                ctx.fillStyle = lemon;
+                ctx.beginPath();
+                ctx.arc(j * 100 + 50, i * 100 + 50, dropRadius, 0, Math.PI * 2, true);
+                ctx.fill();
+                ctx.closePath();
+            } else if (droplets[i][j] == grapefruit) {
+                ctx.fillStyle = grapefruit;
+                ctx.beginPath();
+                ctx.arc(j * 100 + 50, i * 100 + 50, dropRadius, 0, Math.PI * 2, true);
+                ctx.fill();
+                ctx.closePath();
             } else if (droplets[i][j] == orange) {
                 ctx.fillStyle = orange;
                 ctx.beginPath();
                 ctx.arc(j * 100 + 50, i * 100 + 50, dropRadius, 0, Math.PI * 2, true);
                 ctx.fill();
+                ctx.closePath();
             }
 
             // Check if droplet is first click
@@ -215,19 +292,19 @@ function draw() {
     /*var myGradient = ctx.createLinearGradient(0, 0, 170, 0);
     myGradient.addColorStop(0, purple);
     myGradient.addColorStop(1, "white"); */
-    ctx.fillStyle = purple;
+    ctx.fillStyle = lemon;
     ctx.fillRect(0, containerTop, containerWidth, containerHeight);
 
-    ctx.fillStyle = green;
+    ctx.fillStyle = lime;
     ctx.fillRect(100, containerTop, containerWidth, containerHeight);
         
-    ctx.fillStyle = red;
+    ctx.fillStyle = orange;
     ctx.fillRect(200, containerTop, containerWidth, containerHeight);
         
-    ctx.fillStyle = orange;
+    ctx.fillStyle = grapefruit;
     ctx.fillRect(300, containerTop, containerWidth, containerHeight);
 
-    ctx.fillStyle = blue;
+    ctx.fillStyle = bloodorange;
     ctx.fillRect(400, containerTop, containerWidth, containerHeight);
 
     // Display Timer & Score
