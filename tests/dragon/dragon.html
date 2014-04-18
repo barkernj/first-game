@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Dragon</title>
+        <!-- BEGIN IMPORT CSS AND JAVASCRIPT-->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="dragon-style.css">
+        <!-- END IMPORT CSS AND JAVASCRIPT-->
+        <!-- BEGIN CREATE.JS -->
+        <script src="http://code.createjs.com/createjs-2013.12.12.min.js"></script>
+        <!-- END CREATE.JS -->
+        <script>
+
+            var stage;
+            var queue;
+
+            console.log("SCRIPT");
+
+            function init() {
+                console.log("INIT START");
+                stage = new createjs.Stage("myCanvas");
+
+                queue = new createjs.LoadQueue();
+                queue.installPlugin(createjs.Sound);
+                queue.addEventListener("complete", handleComplete);
+                queue.loadManifest(
+                [
+                { id: "credits", src: "images/credits.png" },
+                { id: "settings", src: "images/settings.png" },
+                { id: "play", src: "images/play.png" },
+                { id: "background", src: "images/dragon-title.png" },
+                { id: "eyes", src: "images/dragon-eyes.png" },
+                { id: "theme", src: "audio/dragon-theme-loop.mp3" }
+                ]);
+                console.log("INIT END");
+            }
+
+            function handleComplete(event) {
+                console.log("COMPLETE START")
+
+                var background = new createjs.Bitmap(queue.getResult("background"));
+                var eyes = new createjs.Bitmap(queue.getResult("eyes"));
+                var play = new createjs.Bitmap(queue.getResult("play"));
+                var settings = new createjs.Bitmap(queue.getResult("settings"));
+                var credits = new createjs.Bitmap(queue.getResult("credits"));
+
+                stage.enableMouseOver(10);
+                background.x = 0;
+                background.y = 0;
+                eyes.x = -20;
+                eyes.y = 51;
+                play.x = 354;
+                play.y = 191;
+                settings.x = 314;
+                settings.y = 240;
+                credits.x = 325;
+                credits.y = 287;
+
+                createjs.Tween.get(eyes, { loop: true }).to({ y: 46 }, 3000).to({ x: 20 }, 7000).to({ y: 51 }, 3000).to({ x: -20 }, 5000);
+
+                var myInstance = createjs.Sound.play("theme", { loop: -1 });
+
+                createjs.Ticker.addEventListener("tick", tick);
+
+                background.addEventListener("click", handleClick);
+                play.addEventListener("mouseover", handleMouseOver);
+                play.addEventListener("mouseout", handleMouseOut);
+                settings.addEventListener("mouseover", handleMouseOver);
+                settings.addEventListener("mouseout", handleMouseOut);
+                credits.addEventListener("mouseover", handleMouseOver);
+                credits.addEventListener("mouseout", handleMouseOut);
+
+
+                stage.addChild(background, eyes, play, settings, credits);
+
+                console.log("COMPLETE END");
+            }
+
+            function handleMouseOver(event) {
+                document.body.style.cursor = 'pointer';
+            }
+
+            function handleMouseOut(event) {
+                document.body.style.cursor = 'default';
+            }
+
+            function handleClick(event) {
+                console.log("Clicked");
+            }
+
+            function tick(event) {
+                stage.update();
+            }
+
+        </script>
+    </head>
+    <body onload="init()">
+        <div class="gameWrapper">
+            <div id="game" class="layer">
+                <canvas id="myCanvas" width="800" height="480">
+                    <p>Your browser does not support HTML5!</p>
+                </canvas>
+            </div>
+        </div>
+        <!--<script type="text/javascript" src="dragon-script.js"></script> -->
+    </body>
+</html>

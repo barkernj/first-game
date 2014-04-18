@@ -1,30 +1,34 @@
 html, body {
     margin: 0;
     padding: 0;
-    background-color: #151515;
+    background-color: #000000;
 }
-
 .gameWrapper{
     width:800px;
     margin: 0 auto;
     margin-top: 2em;   
 }
-
 canvas {
     display: block;
     margin: auto;
     position: relative;
+    //border: solid 2px white;
+    border-radius: 10px;
 }
-
 h4 {
+    width: 500px;
+    text-align: center;
     color: #ffffff;
     display: inline-block;
     position: relative;
     padding-right: 25px;
 }
-
 .controls {
     position: relative;
     display: block;
     margin: auto;
+}
+.title {
+    color: #ffffff;
+    text-align: center;
 }

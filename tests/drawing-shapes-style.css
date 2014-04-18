@@ -3,28 +3,47 @@ html, body {
     padding: 0;
     background-color: #151515;
 }
-
 .gameWrapper{
-    width:800px;
+    width:500px;
     margin: 0 auto;
     margin-top: 2em;   
 }
-
 canvas {
     display: block;
     margin: auto;
     position: relative;
+    border: solid 2px white;
+    border-radius: 10px;
 }
-
 h4 {
+    width: 500px;
+    text-align: center;
     color: #ffffff;
     display: inline-block;
     position: relative;
     padding-right: 25px;
 }
-
 .controls {
     position: relative;
     display: block;
     margin: auto;
+}
+.title {
+    color: #ffffff;
+    text-align: center;
+}
+.red {
+    color: #FF0000;
+}
+.purple {
+    color: #8B008B;
+}
+.green {
+    color: #5FCF80;
+}
+.orange {
+    color: #FF8C00;
+}
+.blue {
+    color: #00C8FB;
 }

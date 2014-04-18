@@ -14,6 +14,12 @@
     + Added Power-Up = Hero's speed (x1.5)
     + Added Spacebar Action Keystroke
     + Added Power-Up = Hero PNG changes
+    + Added background track
+    + Added SFX for action |spacebar|
+    + Added run action |E|
+    + Added 800x600 sand background BETTER
+    + Added reset action |R|
+    + Added Scorpion Monster
 */
 
 /*  CHANGES TO MAKE
@@ -23,11 +29,9 @@
     - Make Monster Chase Hero
     - Add area where player cannot go (like a building was there)
     - Add a timer at top right of Canvas
-    - Add background track
-    - Add Buffered Audio and SFX for action keystroke
     - Responsive Windows?
-    - Add sfx to action key |spacebar|
     - Add sfx for hitting wall
+    - Add Reset Game to |R| key
 */
 
 /* LOADING SCREEN
@@ -49,7 +53,7 @@ var bgImage = new Image();
 bgImage.onload = function () {
 	bgReady = true;
 };
-bgImage.src = "images/background-sand-800x600.png";
+bgImage.src = "images/background-sand-800x600-better.png";
 
 // Hero image
 var heroReady = false;
@@ -75,24 +79,52 @@ powerImage.onload = function () {
 };
 powerImage.src = "images/power-up.png";
 
-// Game objects
+// Scorpion images
+var scorpionReady = false;
+var scorpionImage = new Image();
+scorpionImage.onload = function () {
+    scorpionReady = true;
+};
+scorpionImage.src = "images/scorpion-up.png";
+
+// Game objects --------------------------------------------------------------------------------------------------------------------
 var hero = {
 	speed: 256, // movement in pixels per second
 	x: 0,
-	y: 0
+	y: 0,
+    life: 20,
+    attack: 5,
+    defense: 0,
+    money: 0
 };
 var monster = {
     speed: 0,
 	x: 0,
-	y: 0
+	y: 0,
+    life: 5,
+    attack: 1,
+    defense: 0
 };
+var scorpion = {
+    speed: 0,
+    x: 0,
+    y: 0,
+    attack: 1,
+    defense: 0
+}
 var monstersCaught = 0;
 var powerNum = 0;
 var power = {
     x: -64,
     y: -64
 };
-var timeLeft = 10000;
+var timeLeft = 10;
+var swingSFX = new Audio("/audio/sfx/action-sound.mp3");
+var track01 = new Audio("/audio/track/luf1cave.mp3");
+var track02 = new Audio("/audio/track/Gyro-Dungeon003.mp3");
+//track01.play();
+track02.play();
+var direction = 0;
 
 /*var timeElapse = function () {
     	setInterval(timeDecrement,1000);
@@ -111,39 +143,90 @@ addEventListener("keyup", function (e) {
 
 // Reset the game when the player catches a monster
 var reset = function () {
-	hero.x = canvas.width / 2;
-	hero.y = canvas.height / 2;
+    //window.alert("GAME OVER MAN, GAME OVER!");
+    hero.x = canvas.width / 2;
+    hero.y = canvas.height / 2;
 
-	// Throw the monster somewhere on the screen randomly
-	monster.x = 32 + (Math.random() * (canvas.width - 64));
-	monster.y = 32 + (Math.random() * (canvas.height - 64));
+    // Throw the monster somewhere on the screen randomly
+    monster.x = 32 + (Math.random() * (canvas.width - 64));
+    monster.y = 32 + (Math.random() * (canvas.height - 64));
+
+    // Throw the scorpion monster somewhere on the screen randomly
+    scorpion.x = 32 + (Math.random() * (canvas.width - 64));
+    scorpion.y = 32 + (Math.random() * (canvas.height - 64));
+
+    timeLeft = 10;
+    timer();
 };
 
-// Update game objects
+//Timer (When it runs out the game is over)
+    var counter = setInterval(timer, 1000); // 1000 will run every 1 second
+    function timer() {
+        timeLeft = timeLeft - 1;
+        if (timeLeft <= 0) {
+            clearInterval(counter);
+            reset();
+            return;
+        }
+    }
+
+// Update game objects -------------------------------------------------------------------------------------------------------------
 var update = function (modifier) {
     if (38 in keysDown) { // Player holding up
         hero.y -= hero.speed * modifier;
+        direction = 1;
     }
     if (87 in keysDown) { // Player holding |W|
         hero.y -= hero.speed * modifier;
+        direction = 1;
     }
     if (40 in keysDown) { // Player holding down
         hero.y += hero.speed * modifier;
+        direction = 2;
     }
     if (83 in keysDown) { // Player holding |S|
         hero.y += hero.speed * modifier;
+        direction = 2;
     }
     if (37 in keysDown) { // Player holding left
         hero.x -= hero.speed * modifier;
+        direction = 4;
     }
     if (65 in keysDown) { // Player holding |A|
         hero.x -= hero.speed * modifier;
+        direction = 4;
     }
     if (39 in keysDown) { // Player holding right
         hero.x += hero.speed * modifier;
+        direction = 3;
     }
     if (68 in keysDown) { // Player holding |D|
         hero.x += hero.speed * modifier;
+        direction = 3;
+    }
+    if (32 in keysDown) { // Player Presses |spacebar|
+        swingSFX.play();
+    }
+    if (69 in keysDown) { // Player Presses |E|
+        var run = function () {
+            // Direction used to dash action (1 = up)(2= down)(3 = right)(4 = left)
+            if (direction == 1) {
+                hero.y = hero.y - 1;
+            }
+            if (direction == 2) {
+                hero.y = hero.y + 1;
+            }
+            if (direction == 3) {
+                hero.x = hero.x + 1;
+            }
+            if (direction == 4) {
+                hero.x = hero.x - 1;
+            }
+        }
+        run();
+    }
+    if (82 in keysDown) { // Player Presses |R|
+        reset();
     }
 
     // Are the Hero & Monter touching?
@@ -182,6 +265,34 @@ var update = function (modifier) {
         ++powerNum;
     }
 
+    // Monster Chases Hero
+    if (monster.x < hero.x) {
+        monster.x = monster.x + 0.5;
+    }
+    if (monster.y < hero.y) {
+        monster.y = monster.y + 0.5;
+    }
+    if (monster.x > hero.x) {
+        monster.x = monster.x - 0.5;
+    }
+    if (monster.y > hero.y) {
+        monster.y = monster.y - 0.5;
+    }
+
+    // Scorpion Faces Hero
+    if (scorpion.x < hero.x) {
+        scorpionImage.src = "/images/scorpion-right.png";
+    }
+    if (scorpion.y < hero.y) {
+        scorpionImage.src = "/images/scorpion-down.png";
+    }
+    if (scorpion.x > hero.x) {
+        scorpionImage.src = "/images/scorpion-left.png";
+    }
+    if (scorpion.y > hero.y) {
+        scorpionImage.src = "/images/scorpion-up.png";
+    }
+
     // Area where player cannot go
 
 
@@ -201,22 +312,17 @@ var update = function (modifier) {
     if (hero.y >= 633) {
         hero.y = (0 - 32);
     }
-    
-    //Timer (When it runs out the game is over)
-    if (timeLeft == 0){
-    	reset();
-    }
-    
-    var timeDecrement = function (timeLeft) {
-		var startTime = Date.now();
-		return function() {
-			return timeLeft - (Date.now() - startTime);
-		};
-	};
-    
+        
+    /* var timeDecrement = function (timeLeft) {
+    var startTime = Date.now();
+    return function () {
+    return timeLeft - (Date.now() - startTime);
+    };
+    }; */
+
 };
 
-// Draw everything
+// Draw everything ---------------------------------------------------------------------------------------------------------------
 var render = function () {
     if (bgReady) {
         ctx.drawImage(bgImage, 0, 0);
@@ -233,6 +339,9 @@ var render = function () {
     if (powerReady) {
         ctx.drawImage(powerImage, power.x, power.y);
     }
+    if (scorpionReady) {
+        ctx.drawImage(scorpionImage, scorpion.x, scorpion.y);
+    }
 
     // Score
     ctx.fillStyle = "rgb(0, 0, 0)";
@@ -240,9 +349,9 @@ var render = function () {
     ctx.textAlign = "left";
     ctx.textBaseline = "top";
     ctx.fillText("Goblins Captured: " + monstersCaught, 0, 0);
-    
+
     //Timer
-    ctx.fillText("Timer: " + (timeLeft/1000), 700, 0);
+    ctx.fillText("Timer: " + (timeLeft), 690, 0);
 };
 
 // The main game loop
