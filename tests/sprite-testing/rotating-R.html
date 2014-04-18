@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+    </head>
+    <body onload="init()">
+        <canvas id="gameCanvas" width="500" height="500">
+            Update this browser now!
+        </canvas>
+
+        <script>
+
+            function init() {
+                var ctx = document.getElementById("gameCanvas").getContext("2d");
+                var img = new Image();
+
+                img.src = "assets/rotating-R.png";
+
+                var spriteWidth = 64,
+                    spriteHeight = 64,
+                    pixelsLeft = 0,
+                    pixelsTop = 0,
+
+                //Where are we going to draw the sprite on the canvas
+                    canvasPosX = 20,
+                    canvasPosY = 20;
+
+                ctx.drawImage(img, pixelsLeft, pixelsTop, spriteWidth, spriteHeight, canvasPosX, canvasPosY, spriteWidth, spriteHeight);
+
+                function Sprite(img, width, height, positions) {
+                    this.img = img;
+                    this.width = width;
+                    this.height = height;
+                    this.positions = positions;
+                }
+                Sprite.prototype = {
+                    draw: function (positions, x, y) {
+                        var pos = this.positions[positions];
+                        ctx.drawImage(
+                            this.img,
+                            pos[0],
+                            pos[1],
+                            this.width,
+                            this.height,
+                            x, y,
+                            this.width,
+                            this.height
+                        );
+                    }
+                }
+
+                var sprite = new Sprite(img, 32, 16, [
+                //sprite locations
+                    [0, 64],
+                    [64, 64],
+                    [128, 64]
+                ]);
+                sprite.draw(0, 10, 200);
+                sprite.draw(1, 50, 200);
+                sprite.draw(2, 90, 200);
+            }
+
+        </script>
+    </body>
+</html>
